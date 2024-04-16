@@ -13,25 +13,54 @@ cuándo ocurrió.*/
 #define COLUMNAS 12
 
 int cargarMatriz();
-void mostarMatriz();
-float calcularPromedio(int totalGananciaAnual);
+void mostrarMatriz(int filas, int columnas, int matriz[filas][columnas]);
+void calcularPromedioAnual(int filas, int columnas, int matriz[filas][columnas]);
 int valorMinimo();
 int valorMaximo();
 
 int main()
 {
     srand(time(NULL));
+    int matrizEmpresa[FILAS][COLUMNAS];
+    for (int i = 0; i < FILAS; i++)
+    {
+        for (int j = 0; j < COLUMNAS; j++)
+        {
+            matrizEmpresa[i][j] = cargarMatriz();
+        }
+    }
+    mostrarMatriz(FILAS, COLUMNAS, matrizEmpresa);
 }
 
 int cargarMatriz()
 {
     int valor = rand() % (50000 - 10000 + 1) + 10000;
+    return valor;
 }
-void mostarMatriz()
+void mostrarMatriz(int filas, int columnas, int matriz[filas][columnas])
 {
+    printf("\n");
+    for (int i = 0; i < filas; i++)
+    {
+        printf("Anio %d:", i + 1);
+        for (int j = 0; j < columnas; j++)
+        {
+            printf("|%6d$ ", matriz[i][j]);
+        }
+        printf("|\n");
+    }
 }
-float calcularPromedio(int totalGananciaAnual)
+void calcularPromedioAnual(int filas, int columnas, int matriz[filas][columnas])
 {
+    int totalAnual = 0;
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            totalAnual = matriz[i][j];
+
+        }
+    }
 }
 int valorMinimo()
 {

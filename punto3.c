@@ -18,12 +18,12 @@ int main()
     }
     for (int i = 0; i < CONSTANTE; i++)
     {
+        printf("Nombre %d:", i+1);
         puts(v[i]);
     }
     free(buff);
     for (int i = 0; i < CONSTANTE; i++)
     {
-        printf("Nombre %d:", i+1);
         free(v[i]);
     }
     free(v);

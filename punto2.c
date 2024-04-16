@@ -30,6 +30,7 @@ int main()
         }
     }
     mostrarMatriz(FILAS, COLUMNAS, matrizEmpresa);
+    calcularPromedioAnual(FILAS, COLUMNAS, matrizEmpresa);
 }
 
 int cargarMatriz()
@@ -52,14 +53,16 @@ void mostrarMatriz(int filas, int columnas, int matriz[filas][columnas])
 }
 void calcularPromedioAnual(int filas, int columnas, int matriz[filas][columnas])
 {
-    int totalAnual = 0;
+    float promedio;
     for (int i = 0; i < filas; i++)
     {
+        int totalAnual = 0;
         for (int j = 0; j < columnas; j++)
         {
-            totalAnual = matriz[i][j];
-
+            totalAnual += matriz[i][j];
         }
+        promedio = (float)totalAnual / 12;
+        printf("\nEl promedio ganado en el anio %d es: %.2f", i + 1, promedio);
     }
 }
 int valorMinimo()

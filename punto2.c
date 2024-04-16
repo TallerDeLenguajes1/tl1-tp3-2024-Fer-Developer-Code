@@ -15,8 +15,8 @@ cuándo ocurrió.*/
 int cargarMatriz();
 void mostrarMatriz(int filas, int columnas, int matriz[filas][columnas]);
 void calcularPromedioAnual(int filas, int columnas, int matriz[filas][columnas]);
-int valorMinimo();
-int valorMaximo();
+void valorMinimo(int filas, int columnas, int matriz[filas][columnas]);
+void valorMaximo(int filas, int columnas, int matriz[filas][columnas]);
 
 int main()
 {
@@ -31,6 +31,8 @@ int main()
     }
     mostrarMatriz(FILAS, COLUMNAS, matrizEmpresa);
     calcularPromedioAnual(FILAS, COLUMNAS, matrizEmpresa);
+    valorMinimo(FILAS, COLUMNAS, matrizEmpresa);
+    valorMaximo(FILAS, COLUMNAS, matrizEmpresa);
 }
 
 int cargarMatriz()
@@ -65,9 +67,41 @@ void calcularPromedioAnual(int filas, int columnas, int matriz[filas][columnas])
         printf("\nEl promedio ganado en el anio %d es: %.2f", i + 1, promedio);
     }
 }
-int valorMinimo()
+void valorMinimo(int filas, int columnas, int matriz[filas][columnas])
 {
+    int long long minimo = 1000000;
+    int valor, mes, anio;
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            valor = matriz[i][j];
+            if (valor < minimo)
+            {
+                minimo = valor;
+                anio = i + 1;
+                mes = j + 1;
+            }
+        }
+    }
+    printf("\nEl mes con la menor ganancia fue el mes: %d en el anio: %d con un valor de %d", mes, anio, matriz[anio - 1][mes - 1]);
 }
-int valorMaximo()
+void valorMaximo(int filas, int columnas, int matriz[filas][columnas])
 {
+    int maximo = 0;
+    int valor, mes, anio;
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            valor = matriz[i][j];
+            if (valor > maximo)
+            {
+                maximo = valor;
+                anio = i + 1;
+                mes = j + 1;
+            }
+        }
+    }
+    printf("\nEl mes con la mayor ganancia fue el mes: %d en el anio: %d con un valor de %d", mes, anio, matriz[anio - 1][mes - 1]);
 }

@@ -8,7 +8,34 @@ d. Obtenga el valor máximo y el valor mínimo obtenido informando el “año”
 cuándo ocurrió.*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#define FILAS 5
+#define COLUMNAS 12
 
-int main(){
-    
+int cargarMatriz();
+void mostarMatriz();
+float calcularPromedio(int totalGananciaAnual);
+int valorMinimo();
+int valorMaximo();
+
+int main()
+{
+    srand(time(NULL));
+}
+
+int cargarMatriz()
+{
+    int valor = rand() % (50000 - 10000 + 1) + 10000;
+}
+void mostarMatriz()
+{
+}
+float calcularPromedio(int totalGananciaAnual)
+{
+}
+int valorMinimo()
+{
+}
+int valorMaximo()
+{
 }

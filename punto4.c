@@ -58,6 +58,9 @@ struct Cliente
     // "CantidadProductosAPedir"
 } typedef cliente;
 
-int main(){
+int main()
+{
+    int cantClientes, CantidadProductosAPedir;
+    cliente *clientes = (cliente *)malloc(cantClientes * sizeof(cliente));
     return 0;
 }

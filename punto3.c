@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define CONSTANTE 5
 
 int main()
 {
     char **v, *buff;
-    v = (char **)malloc(5 * sizeof(char *));
+    v = (char **)malloc(CONSTANTE * sizeof(char *));
     buff = (char *)malloc(100 * sizeof(char));
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < CONSTANTE; i++)
     {
         printf("Ingrese el nombre que ira en la posicion %d\n", i + 1);
         gets(buff);
@@ -15,13 +16,14 @@ int main()
         v[i] = (char *)malloc((strlen(buff) + 1) * sizeof(char));
         strcpy(v[i], buff);
     }
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < CONSTANTE; i++)
     {
         puts(v[i]);
     }
     free(buff);
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < CONSTANTE; i++)
     {
+        printf("Nombre %d:", i+1);
         free(v[i]);
     }
     free(v);

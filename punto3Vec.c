@@ -4,8 +4,7 @@
 
 int main()
 {
-    char **v, *buff;
-    v = (char **)malloc(5 * sizeof(char *));
+    char *v[5], *buff;
     buff = (char *)malloc(100 * sizeof(char));
     for (int i = 0; i < 5; i++)
     {
@@ -17,6 +16,7 @@ int main()
     }
     for (int i = 0; i < 5; i++)
     {
+        printf("Nombre %d:", i+1);
         puts(v[i]);
     }
     free(buff);
@@ -24,6 +24,5 @@ int main()
     {
         free(v[i]);
     }
-    free(v);
     return 0;
 }

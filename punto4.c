@@ -1,44 +1,9 @@
-/*
-4) Considere la siguiente situación: En una distribuidora necesita implementar la carga de
-productos de sus preventistas, los cuales recolectan los productos que sus clientes van
-necesitando. El sistema que se utiliza en la empresa es desarrollado por equipos de
-programadores donde cada equipo se encarga de una tarea específica. Usted forma parte del
-equipo de programación que se encargará de hacer el módulo para los preventistas:
-Tareas:
-Cada preventista puede visitar hasta 5 clientes, los cuales por cuestiones operativas solo
-puede pedir hasta 10 productos
-Las estructuras de datos necesarias son las siguientes:
-i) Desarrollar una interfaz por consola donde se solicite al usuario la cantidad de
-clientes.
-ii) Solicitar al usuario la carga de los clientes creados dinámicamente en el paso anterior.
-iii) A medida que se dé de alta cada cliente, Generar aleatoriamente la cantidad de
-productos asociados al cliente y sus características.
-Ej: producto cargado nro. 2
-Producto {
-ProductoID=2
-Cantidad = 1;
-*TipoProducto = “Snack”;
-PrecioUnitario = 100;
-}
-iv) Implemente una función que calcule el costo total de un producto. Esta función debe
-recibir como parámetro el producto y devolver el resultado de calcular la Cantidad por
-el PrecioUnitario.
-v) Mostrar por pantalla todo lo cargado. Incluyendo un total a pagar por cliente
-(sumatoria del costo de todos los productos)
-cadena_destinoPágina 4
-Taller de Lenguajes I – 2024
-Programador Universitario / Licenciatura en Informática / Ingeniería en Informática
-Trabajo Práctico N° 3
-5) Modifique el ejercicio nro 3 para que, en lugar de ingresar un número fijo de nombres, el
-usuario pueda indicar previamente la cantidad de nombres que ingresará a continuación.
-6) ¿Qué es una wiki?¿Para que suele usarse? Investigue, cómo usar la wiki del github. Cargue
-en la wiki de su repositorio todas las respuestas.
-7) En la Wiki de su repositorio: explique con sus propias palabras cuál es la diferencia entre
-memoria dinámica y estática. ¿Cuáles son las características de cada una? ¿En qué casos
-se debe usar cada una?
-*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
+#define MAX 100
 
 char *TiposProductos[] = {"Galletas", "Snack", "Cigarrillos", "Caramelos", "Bebidas"};
 struct Producto
@@ -54,13 +19,103 @@ struct Cliente
     int ClienteID;               // Numerado en el ciclo iterativo
     char *NombreCliente;         // Ingresado por usuario
     int CantidadProductosAPedir; // (aleatorio entre 1 y 5)
-    producto *Productos          // El tamaño de este arreglo depende de la variable
-    // "CantidadProductosAPedir"
+    producto *Productos;         // El tamaño de este arreglo depende de la variable "CantidadProductosAPedir"
 } typedef cliente;
+
+void cargarClientes(cliente *clientes, int cantidadClientes);
+float costoTotalXProducto(cliente *clientes, int cantidadClientes, char *nombreProducto);
+void mostrarDatos(cliente *clientes, int cantidadClientes);
 
 int main()
 {
+    srand(time(NULL));
     int cantClientes, CantidadProductosAPedir;
+    float totalXProducto;
+    char nombreProducto[15];
+    do
+    {
+        printf("Inserte la cantidad de clientes a atender\n");
+        scanf("%d", &cantClientes);
+        if (cantClientes > 5)
+        {
+            printf("Inserte la cantidad de clientes menor o igual a 5");
+        }
+    } while (cantClientes < 1 || cantClientes > 5);
+    fflush(stdin);
     cliente *clientes = (cliente *)malloc(cantClientes * sizeof(cliente));
+    cargarClientes(clientes, cantClientes);
+    printf("Ingrese el nombre del producto del que desea conocer la ganancia total\n");
+    scanf("%s", nombreProducto);
+    totalXProducto = costoTotalXProducto(clientes, cantClientes, nombreProducto);
+    printf("El costo total del producto %s es: %.2f\n", nombreProducto, totalXProducto);
+    mostrarDatos(clientes, cantClientes);
+    for (int i = 0; i < cantClientes; i++)
+    {
+        free(clientes[i].Productos);
+        free(clientes[i].NombreCliente);
+    }
+    free(clientes);
     return 0;
+}
+
+void cargarClientes(cliente *clientes, int cantidadClientes)
+{
+    cliente *auxCliente = clientes;
+    char *buff = (char *)malloc(MAX * sizeof(char));
+    for (int i = 0; i < cantidadClientes; i++)
+    {
+        auxCliente->ClienteID = i + 1;
+        printf("Ingrese el nombre del cliente %d\n", auxCliente->ClienteID);
+        scanf("%s", buff);
+        auxCliente->NombreCliente = (char *)malloc((strlen(buff) + 1) * sizeof(char));
+        strcpy(auxCliente->NombreCliente, buff);
+        auxCliente->CantidadProductosAPedir = rand() % 5 + 1;
+        auxCliente->Productos = (producto *)malloc(auxCliente->CantidadProductosAPedir * sizeof(producto));
+        for (int j = 0; j < auxCliente->CantidadProductosAPedir; j++)
+        {
+            auxCliente->Productos->ProductoID = j + 1;
+            auxCliente->Productos->Cantidad = rand() % 10 + 1;
+            auxCliente->Productos->TipoProducto = TiposProductos[rand() % 5];
+            auxCliente->Productos->PrecioUnitario = rand() % 91 + 10;
+            auxCliente->Productos++;
+        }
+        auxCliente++;
+    }
+    auxCliente->Productos -= auxCliente->CantidadProductosAPedir;
+    auxCliente -= cantidadClientes;
+    free(buff);
+}
+
+float costoTotalXProducto(cliente *clientes, int cantidadClientes, char *nombreProducto)
+{
+    float total = 0;
+    for (int i = 0; i < cantidadClientes; i++)
+    {
+        for (int j = 0; j < clientes[i].CantidadProductosAPedir; j++)
+        {
+            if (strcmp(nombreProducto, clientes[i].Productos[j].TipoProducto) == 0)
+            {
+                total += clientes[i].Productos[j].Cantidad * clientes[i].Productos[j].PrecioUnitario;
+            }
+        }
+    }
+    return total;
+}
+
+void mostrarDatos(cliente *clientes, int cantidadClientes)
+{
+    producto *pAux = clientes->Productos;
+    for (int i = 0; i < cantidadClientes; i++)
+    {
+        printf("\n-----ID-----\n----:%d\n", clientes[i].ClienteID);
+        printf("\n-----Nombre-----\n----:%s\n", clientes[i].NombreCliente);
+        printf("\n-----CantidadProductosAPedir-----\n----:%d\n", clientes[i].CantidadProductosAPedir);
+        for (int j = 0; j < clientes[i].CantidadProductosAPedir; j++)
+        {
+            printf("\n---Producto ID---\n%d\n", pAux[j].ProductoID);
+            printf("\n----Cantidad---\n%d\n", pAux[j].Cantidad);
+            printf("\n----Tipo de Producto---\n%s\n", pAux[j].TipoProducto);
+            printf("\n----Precio Unitario---\n%f\n", pAux[j].PrecioUnitario);
+        }
+    }
 }

@@ -79,9 +79,9 @@ void cargarClientes(cliente *clientes, int cantidadClientes)
             auxCliente->Productos->PrecioUnitario = rand() % 91 + 10;
             auxCliente->Productos++;
         }
+        auxCliente->Productos -= auxCliente->CantidadProductosAPedir;
         auxCliente++;
     }
-    auxCliente->Productos -= auxCliente->CantidadProductosAPedir;
     auxCliente -= cantidadClientes;
     free(buff);
 }

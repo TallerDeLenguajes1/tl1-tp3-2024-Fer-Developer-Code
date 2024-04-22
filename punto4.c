@@ -47,7 +47,7 @@ int main()
     printf("Ingrese el nombre del producto del que desea conocer la ganancia total\n");
     scanf("%s", nombreProducto);
     totalXProducto = costoTotalXProducto(clientes, cantClientes, nombreProducto);
-    printf("El costo total del producto %s es: %.2f\n", nombreProducto, totalXProducto);
+    printf("\nEl costo total del producto %s es: %.2f\n", nombreProducto, totalXProducto);
     mostrarDatos(clientes, cantClientes);
     for (int i = 0; i < cantClientes; i++)
     {
@@ -104,18 +104,25 @@ float costoTotalXProducto(cliente *clientes, int cantidadClientes, char *nombreP
 
 void mostrarDatos(cliente *clientes, int cantidadClientes)
 {
-    producto *pAux = clientes->Productos;
+    float totalAPagar = 0;
     for (int i = 0; i < cantidadClientes; i++)
     {
-        printf("\n-----ID-----\n----:%d\n", clientes[i].ClienteID);
-        printf("\n-----Nombre-----\n----:%s\n", clientes[i].NombreCliente);
-        printf("\n-----CantidadProductosAPedir-----\n----:%d\n", clientes[i].CantidadProductosAPedir);
+        printf("\nCliente ID: %d\n", clientes[i].ClienteID);
+        printf("Nombre: %s\n", clientes[i].NombreCliente);
+        printf("Cantidad de Productos a Pedir: %d\n", clientes[i].CantidadProductosAPedir);
+        printf("Productos:\n");
+
         for (int j = 0; j < clientes[i].CantidadProductosAPedir; j++)
         {
-            printf("\n---Producto ID---\n%d\n", pAux[j].ProductoID);
-            printf("\n----Cantidad---\n%d\n", pAux[j].Cantidad);
-            printf("\n----Tipo de Producto---\n%s\n", pAux[j].TipoProducto);
-            printf("\n----Precio Unitario---\n%f\n", pAux[j].PrecioUnitario);
+            totalAPagar += clientes[i].Productos[j].PrecioUnitario * clientes[i].Productos[j].Cantidad;
+            printf("\tProducto ID: %d\n", clientes[i].Productos[j].ProductoID);
+            printf("\tCantidad: %d\n", clientes[i].Productos[j].Cantidad);
+            printf("\tTipo: %s\n", clientes[i].Productos[j].TipoProducto);
+            printf("\tPrecio Unitario: $%.2f\n", clientes[i].Productos[j].PrecioUnitario);
+            printf("\n");
         }
+        printf("\tTotal a pagar el cliente %d: %.2f", clientes[i].ClienteID, totalAPagar);
+        printf("\n--------------------------------------------------\n");
+        totalAPagar = 0;
     }
 }
